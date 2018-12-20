@@ -91,6 +91,8 @@ function Circle(x, y, dx, dy, radius, colour){
     c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
     c.strokeStyle = this.colour;
     c.stroke();
+    c.shadowBlur = 40;
+    c.shadowColor = 'white';
     c.fill();
   };
 
@@ -109,7 +111,7 @@ function Circle(x, y, dx, dy, radius, colour){
 
 const circles = [];
 
-for(let i = 0; i < 100; i++){
+for(let i = 0; i < 20; i++){
   const radius = 40;
   const x = Math.random() * (canvas.width - radius * 2) + radius;
   const y = Math.random() * (canvas.height - radius * 2) + radius;
