@@ -73,26 +73,52 @@ const c = canvas.getContext('2d');
 // }
 // animate();
 
-const colours = ['red', 'gold', 'grey', 'blue', 'steelblue', 'rebeccapurple', 'lime', 'hotpink'];
+// const colours = ['red', 'gold', 'grey', 'blue', 'steelblue', 'rebeccapurple', 'lime', 'hotpink'];
+
+const colours = ['#29DBE8', '#3AFFD5', '#29E889', '#2DFF5B'];
+let circles = [];
+const maxRadius = 75;
 
 const mouse = {
   x: undefined,
   y: undefined
 };
 
+window.addEventListener('resize', handleResize);
 window.addEventListener('mousemove', handleMouseMove);
+
+function handleResize(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  init();
+}
+
 function handleMouseMove(event){
   mouse.x = event.x;
   mouse.y = event.y;
 }
+function init(){
+  circles = [];
+  for(let i = 0; i < 300; i++){
+    const radius = Math.random() * 7 + 3;
+    const x = Math.random() * (canvas.width - radius * 2) + radius;
+    const y = Math.random() * (canvas.height - radius * 2) + radius;
+    const dx = (Math.random() - 0.5) * 1;
+    const dy = (Math.random() - 0.5) * 1;
+    // const colour = 'rgba(0,0,0, 0.1)';
+    const colour = colours[Math.floor(Math.random() * colours.length)];
+    circles.push(new Circle(x, y, dx, dy, radius, colour));
+  }
+}
+
 function Circle(x, y, dx, dy, radius, colour){
   this.x = x;
   this.y = y;
   this.dx = dx;
   this.dy = dy;
   this.radius = radius;
-  this.maxRadius = 100;
-  this.minRadius = 30;
+  this.minRadius = radius;
+
   this.colour = colour;
   this.draw = function(){
     c.beginPath();
@@ -101,7 +127,7 @@ function Circle(x, y, dx, dy, radius, colour){
     c.stroke();
     // c.shadowBlur = 40;
     // c.shadowColor = 'white';
-    c.fillStyle = 'rgba(0,0,0, 0.1)';
+    c.fillStyle = this.colour;
     c.fill();
   };
 
@@ -114,13 +140,15 @@ function Circle(x, y, dx, dy, radius, colour){
     }
     this.x += this.dx;
     this.y += this.dy;
+
     //adding interactivity with mouse:
     if(mouse.x - this.x < 50 && mouse.x - this.x > -50 &&
       mouse.y - this.y < 50 && mouse.y - this.y > -50){
-      if(this.radius < this.maxRadius){
-        this.radius += 1;
 
+      if(this.radius < maxRadius){
+        this.radius += 2;
       }
+
     } else if(this.radius > this.minRadius){
       this.radius -= 1;
     }
@@ -128,22 +156,12 @@ function Circle(x, y, dx, dy, radius, colour){
   };
 }
 
-const circles = [];
 
-for(let i = 0; i < 300; i++){
-  const radius = 40;
-  const x = Math.random() * (canvas.width - radius * 2) + radius;
-  const y = Math.random() * (canvas.height - radius * 2) + radius;
-  const dx = (Math.random() - 0.5) * 1;
-  const dy = (Math.random() - 0.5) * 1;
-  // const colour = 'rgba(0,0,0, 0.1)';
-  const colour = colours[Math.floor(Math.random() * colours.length)];
-  circles.push(new Circle(x, y, dx, dy, radius, colour));
-}
 
 function animate(){
   requestAnimationFrame(animate);
   c.clearRect(0,0, canvas.width, canvas.height);
   circles.forEach(circle => circle.update());
 }
+init();
 animate();
