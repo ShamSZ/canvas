@@ -75,9 +75,10 @@ const c = canvas.getContext('2d');
 
 // const colours = ['red', 'gold', 'grey', 'blue', 'steelblue', 'rebeccapurple', 'lime', 'hotpink'];
 
-const colours = ['#29DBE8', '#3AFFD5', '#29E889', '#2DFF5B'];
+// const colours = ['#29DBE8', '#3AFFD5', '#29E889', '#2DFF5B'];
+const colours = ['#F2B134', '#068587', '#4FB99F', '#ED553B'];
 let circles = [];
-const maxRadius = 75;
+const maxRadius = 10;
 
 const mouse = {
   x: undefined,
@@ -99,8 +100,8 @@ function handleMouseMove(event){
 }
 function init(){
   circles = [];
-  for(let i = 0; i < 300; i++){
-    const radius = Math.random() * 7 + 3;
+  for(let i = 0; i < 500; i++){
+    const radius = Math.random() * 3 + 2;
     const x = Math.random() * (canvas.width - radius * 2) + radius;
     const y = Math.random() * (canvas.height - radius * 2) + radius;
     const dx = (Math.random() - 0.5) * 1;
